@@ -14,7 +14,7 @@ interface IGithubProfileResponse {
 export class SearchGithubProfileService {
   async execute(profile: string): Promise<IGithubProfileResponse> {
     try {
-      const result = await api.get(`/${profile}`);
+      const result = await api.get(`${profile}`);
 
       const {
         login,
