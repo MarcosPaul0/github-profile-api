@@ -1,4 +1,4 @@
-import api from '../api';
+import api from '../api'
 import { AppError } from '../errors/AppError';
 
 interface IGithubProfileResponse {
@@ -14,7 +14,15 @@ interface IGithubProfileResponse {
 export class SearchGithubProfileService {
   async execute(profile: string): Promise<IGithubProfileResponse> {
     try {
-      const result = await api.get(`${profile}`);
+      const user = await api.get('/search/users', {
+        params: {
+          q: profile
+        }
+      });
+
+      const { login: userLogin } = user.data.items[0];
+
+      const result = await api.get(`/users/${userLogin}`);
 
       const {
         login,
