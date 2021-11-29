@@ -11,6 +11,7 @@ import { UpdateUserEmailController } from '../controllers/UpdateUserEmailControl
 import { UpdateUserPasswordController } from '../controllers/UpdateUserPasswordController';
 import { UpdateUserNameController } from '../controllers/UpdateUserNameController';
 import { DeleteUserController } from '../controllers/DeleteUserController';
+import { GetProfileController } from '../controllers/GetProfileController';
 
 export const router = Router();
 
@@ -23,12 +24,13 @@ const updateUserEmailController = new UpdateUserEmailController();
 const updateUserPasswordController = new UpdateUserPasswordController();
 const updateUserNameController = new UpdateUserNameController();
 const deleteUserController = new DeleteUserController();
+const getProfileController = new GetProfileController();
 
 router.post('/register', createUserController.handle);
 
 router.post('/login', authenticateUserController.handle);
 
-router.post('/profile', ensureAuthenticated, searchGithubProfileController.handle);
+router.post('/search', ensureAuthenticated, searchGithubProfileController.handle);
 
 router.get('/users', ensureAuthenticated, listUsersController.handle);
 
@@ -41,3 +43,5 @@ router.put('/users/password/:id', ensureAuthenticated, updateUserPasswordControl
 router.put('/users/name/:id', ensureAuthenticated, updateUserNameController.handle);
 
 router.delete('/users/:id', ensureAuthenticated, deleteUserController.handle);
+
+router.get('/profile', ensureAuthenticated, getProfileController.handle);

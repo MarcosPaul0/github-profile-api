@@ -14,6 +14,8 @@ export function ensureAuthenticated(req: Request, res: Response, next: NextFunct
   try {
     const { sub } = verify(token, process.env.TOKEN_SECRET_KEY);
 
+    req.user_id = sub as string;
+
     next();
   } catch (err) {
     throw new AppError('Invalid token', 401);
