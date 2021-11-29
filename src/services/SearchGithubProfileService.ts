@@ -44,7 +44,7 @@ export class SearchGithubProfileService {
         html_url
       }
     } catch (err) {
-      throw new AppError('User not found!', 404);
+      throw new AppError('Usuário não encontrado!', 404);
     }
   }
 }

@@ -6,7 +6,7 @@ export function ensureAuthenticated(req: Request, res: Response, next: NextFunct
   const authToken = req.headers.authorization;
 
   if(!authToken) {
-    throw new AppError('Token is missing!');
+    throw new AppError('Token perdido!');
   }
 
   const [, token] = authToken.split(' ');
@@ -18,7 +18,7 @@ export function ensureAuthenticated(req: Request, res: Response, next: NextFunct
 
     next();
   } catch (err) {
-    throw new AppError('Invalid token', 401);
+    throw new AppError('Token inválido', 401);
   }
 
 }

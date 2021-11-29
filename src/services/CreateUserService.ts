@@ -16,7 +16,7 @@ export class CreateUserService {
     });
 
     if(user) {
-      throw new AppError('User already exists!');
+      throw new AppError('Usuário já existe!');
     }
 
     const passwordHash = await hash(password, 8);

@@ -16,13 +16,13 @@ export class UpdateUserPasswordService {
     });
 
     if(!user) {
-      throw new AppError('User not found!', 404);
+      throw new AppError('Usuário não encontrado!', 404);
     }
 
     const matchPassword = await compare(actualPassword, user.password);
 
     if(!matchPassword) {
-      throw new AppError('The passwords are different!');
+      throw new AppError('Senha atual incorreta!');
     }
 
     const updated_at = new Date();

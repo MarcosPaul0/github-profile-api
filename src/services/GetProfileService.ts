@@ -16,7 +16,7 @@ export class GetProfileService {
     });
 
     if(!id) {
-      throw new AppError('User not found');
+      throw new AppError('Usuário não encontrado!');
     }
 
     return { id, name, email }

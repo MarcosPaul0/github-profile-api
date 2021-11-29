@@ -24,13 +24,13 @@ export class AuthenticateUserService {
     })
 
     if(!user) {
-      throw new AppError('Email/password incorrect!');
+      throw new AppError('Email/senha incorreta!');
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if(!passwordMatch) {
-      throw new AppError('Email/password incorrect!');
+      throw new AppError('Email/senha incorreta!');
     }
 
     const token = sign({
