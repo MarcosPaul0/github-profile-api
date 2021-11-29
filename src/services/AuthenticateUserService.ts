@@ -8,8 +8,17 @@ interface IAuthenticateUserRequest {
   password: string;
 }
 
+interface AuthenticateUserResponse {
+  token: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+  }
+}
+
 export class AuthenticateUserService {
-  async execute({ email, password }: IAuthenticateUserRequest): Promise<string> {
+  async execute({ email, password }: IAuthenticateUserRequest): Promise<AuthenticateUserResponse> {
     const user = await prismaClient.user.findFirst({
       where: { email }
     })
@@ -31,6 +40,15 @@ export class AuthenticateUserService {
       expiresIn: '1d'
     })
 
-    return token;
+    const { id, name, email: userEmail } = user;
+
+    return { 
+      token, 
+      user: {
+        id,
+        name,
+        email: userEmail
+      }
+    };
   }
 }
