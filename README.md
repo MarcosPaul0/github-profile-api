@@ -17,3 +17,7 @@ yarn prisma migrate dev
 ```` 
 yarn dev
 ````
+
+<h2>Documentação</h2>
+
+<p>Para acessar a documentação da api, após rodar o projeto entra na rota <strong>/docs</strong>.</p>
