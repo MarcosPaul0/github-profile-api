@@ -7,6 +7,6 @@ export class GetProfileController {
 
     const user = await getProfileService.execute(req.user_id);
 
-    return res.status(200).json({user});
+    return res.status(200).json(user);
   }
 }

@@ -1,0 +1,492 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Github Profile API",
+    "description": "API com crud de usuários e busca de perfís do Github",
+    "version": "1.0.0" 
+  },
+  "servers": [{
+    "url": "http://localhost:3333",
+    "description": "API de teste"
+  }],
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "Cadastro de usuário",
+        "description": "Rota de cadastro de um novo usuário",
+        "tags": ["Usuário"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuárioReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Usuário já existe"
+          },
+          "200": {
+            "description": "Usuário criado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuárioRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    }, 
+    "/login": {
+      "post": {
+        "summary": "Login de usuário",
+        "description": "Rota de login de um usuário registrado",
+        "tags": ["Usuário"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuárioLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Email/senha incorreto"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuárioLoginRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "summary": "Perfil de usuário",
+        "description": "Pega dados do perfil de um usuário registrado",
+        "tags": ["Usuário"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "401": {
+            "description": "Usuário não autorizado!"
+          },
+          "400": {
+            "description": "Usuário não encontrado!"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuárioReq"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Lista de usuários",
+        "description": "Lista todos os usuários registrados",
+        "tags": ["Usuário"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "401": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UsuárioRes"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Pega usuário",
+        "description": "Pega um usuário registrado",
+        "tags": ["Usuário"],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "uuid"
+          },
+          "description": "Uuid do usuário"
+        }],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "401": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuárioRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/name/{id}": {
+      "put": {
+        "summary": "Alterar nome",
+        "description": "Rota de altearação de nome de usuário",
+        "tags": ["Usuário"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "uuid"
+          },
+          "description": "Uuid do usuário"
+        }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Usuário não autorizado"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "200": {
+            "description": "Nome de usuário alterado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuárioRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/email/{id}": {
+      "put": {
+        "summary": "Alterar email",
+        "description": "Rota de altearação de email de usuário",
+        "tags": ["Usuário"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "uuid"
+          },
+          "description": "Uuid do usuário"
+        }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Usuário não autorizado"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "200": {
+            "description": "Email de usuário alterado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuárioRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/password/{id}": {
+      "put": {
+        "summary": "Alterar senha",
+        "description": "Rota de altearação de senha de usuário",
+        "tags": ["Usuário"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "uuid"
+          },
+          "description": "Uuid do usuário"
+        }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "actualPassword": {
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Senha atual incorreta"
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "200": {
+            "description": "Senha de usuário alterado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuárioRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users//{id}": {
+      "delete": {
+        "summary": "Deleta usuário",
+        "description": "Deleta um usuário registrado",
+        "tags": ["Usuário"],
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "uuid"
+          },
+          "description": "Uuid do usuário"
+        }],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "401": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuárioRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "post": {
+        "summary": "Perfil de usuário",
+        "description": "Pega dados do perfil de um usuário do Github através da informação de email ou nome de usuário",
+        "tags": ["PerfilGithub"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PerfilGithub"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Usuário não autorizado!"
+          },
+          "400": {
+            "description": "Usuário não encontrado!"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerfilGithubRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UsuárioReq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UsuárioRes": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "Date"
+          },
+          "updated_at": {
+            "type": "Date"
+          }
+        }
+      },
+      "UsuárioLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UsuárioLoginRes": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "user": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PerfilGithub": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "string"
+          }
+        }
+      },
+      "PerfilGithubRes": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "public_repos": {
+            "type": "string"
+          },
+          "avatar_url": {
+            "type": "string"
+          },
+          "html_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemas": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

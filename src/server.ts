@@ -4,6 +4,8 @@ import cors from 'cors';
 import { router } from './routes';
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from './errors/AppError';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocs from './swagger.json';
 
 const app = express();
 
@@ -12,6 +14,8 @@ app.use(express.json());
 app.use(cors())
 
 app.use(router);
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if(err instanceof AppError) {
